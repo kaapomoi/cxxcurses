@@ -10,6 +10,7 @@
 #ifndef CXXCURSES_WINDOW_WINDOW_HPP
 #define CXXCURSES_WINDOW_WINDOW_HPP
 
+#include <cstdint>
 #include <curses.h>
 #include <cxxcurses/raw.hpp>
 #include <cxxcurses/widget/widget.hpp>
@@ -20,7 +21,7 @@ namespace cxxcurses::widget
 class window_interface : public widget_interface
 {
 public:
-    virtual void get_char() const = 0;
+    [[nodiscard]] virtual auto get_char() const noexcept -> std::int32_t = 0;
     [[nodiscard]] virtual auto current_yx() const noexcept
         -> std::pair<int, int> = 0;
     [[nodiscard]] virtual auto max_yx() const noexcept
@@ -42,9 +43,9 @@ public:
         wrefresh( stdscr );
     }
 
-    void get_char() const override
+    [[nodiscard]] auto get_char() const noexcept -> std::int32_t override
     {
-        wgetch( stdscr );
+        return wgetch( stdscr );
     }
 
     [[nodiscard]] auto current_yx() const noexcept
@@ -132,7 +133,7 @@ public:
         }
     }
 
-    void get_char() const override
+    [[nodiscard]] auto get_char() const noexcept -> std::int32_t override
     {
         hook_.refresh();
         this->refresh();
