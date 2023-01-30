@@ -137,7 +137,7 @@ public:
     {
         hook_.refresh();
         this->refresh();
-        wgetch( raw_window_.get() );
+        return wgetch( raw_window_.get() );
     }
 
     [[nodiscard]] auto get() const -> raw::window_ptr override
